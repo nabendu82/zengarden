@@ -51,6 +51,15 @@ export function BenchmarkCharts() {
         </p>
       </motion.header>
 
+      {/* Community StrawPoll Live Voting Section at Top */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.05 }}
+      >
+        <StrawPollWidget title="Which Zengarden is better?" />
+      </motion.div>
+
       <div className="grid gap-6 lg:grid-cols-2">
         <ChartCard
           title="Token cost"
@@ -170,15 +179,6 @@ export function BenchmarkCharts() {
             ))}
           </tbody>
         </table>
-      </motion.div>
-
-      {/* Community StrawPoll Voting Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-      >
-        <StrawPollWidget title="Community Vote: Which AI Built the Best Zen Garden?" />
       </motion.div>
     </div>
   );
