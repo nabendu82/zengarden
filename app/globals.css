@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #e8efe8;
+  --foreground: #1a2420;
+  --muted: #5a6b62;
+  --surface: rgba(255, 255, 255, 0.55);
+  --surface-solid: #f4f7f4;
+  --border: rgba(26, 36, 32, 0.12);
+  --accent: #3d6b5a;
+  --accent-soft: #7a9e8c;
+  --glass: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --nav-bg: rgba(244, 247, 244, 0.72);
+  --chart-grid: rgba(26, 36, 32, 0.08);
+  --danger: #8b4a3a;
+}
+
+.dark {
+  --background: #0c100e;
+  --foreground: #e6eee8;
+  --muted: #8a9a90;
+  --surface: rgba(22, 30, 26, 0.65);
+  --surface-solid: #141c18;
+  --border: rgba(230, 238, 232, 0.1);
+  --accent: #8fbfa8;
+  --accent-soft: #5a8570;
+  --glass: rgba(18, 26, 22, 0.55);
+  --glass-border: rgba(230, 238, 232, 0.12);
+  --nav-bg: rgba(12, 16, 14, 0.78);
+  --chart-grid: rgba(230, 238, 232, 0.08);
+  --danger: #c47868;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-surface-solid: var(--surface-solid);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-glass: var(--glass);
+  --color-glass-border: var(--glass-border);
+  --color-nav-bg: var(--nav-bg);
+  --color-chart-grid: var(--chart-grid);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
