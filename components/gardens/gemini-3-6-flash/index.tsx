@@ -21,21 +21,30 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
   const [lighting, setLighting] = useState<LightingMode>("dusk");
   const [particles, setParticles] = useState(true);
   const [isAudioMuted, setIsAudioMuted] = useState(false);
-  const [hasEntered, setHasEntered] = useState(false);
   const [locked, setLocked] = useState(false);
   const [resetKey, setResetKey] = useState(0);
-  const [hint, setHint] = useState("Click or press 'Enter Garden' to explore");
+  const [hint, setHint] = useState(
+    "Click to look · WASD walk · Shift slow · E strike gong"
+  );
 
   const resetGarden = useCallback(() => {
     setResetKey((k) => k + 1);
     setLocked(false);
-    setHint("Garden reset — click to look");
+    setHint("Garden reset — click to look again");
+    window.setTimeout(
+      () => setHint("Click to look · WASD walk · Shift slow · E strike gong"),
+      1600
+    );
   }, []);
 
   const onLockChange = useCallback((isLocked: boolean) => {
     setLocked(isLocked);
+    setHint(
+      isLocked
+        ? "WASD walk · mouse look · Press [E] to chime sand · Esc free cursor"
+        : "Click to look · WASD walk · Shift slow · E strike gong"
+    );
     if (isLocked) {
-      setHasEntered(true);
       zenAudio.startWind();
     }
   }, []);
@@ -46,11 +55,6 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
       zenAudio.setMuted(next);
       return next;
     });
-  }, []);
-
-  const handleEnterGarden = useCallback(() => {
-    setHasEntered(true);
-    zenAudio.startWind();
   }, []);
 
   return (
@@ -71,7 +75,7 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
         <ZenGardenScene
           lighting={lighting}
           particles={particles}
-          interactive={interactive && hasEntered}
+          interactive={interactive}
           onHintChange={setHint}
         />
         {interactive ? (
@@ -83,38 +87,6 @@ export default function ZenGarden({ interactive = true }: GardenSceneProps) {
           />
         ) : null}
       </Canvas>
-
-      {/* Landing / Welcome Screen Overlay before entry */}
-      {!hasEntered && (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/65 px-4 text-center backdrop-blur-md">
-          <div className="max-w-md rounded-2xl border border-white/15 bg-neutral-900/80 p-6 shadow-2xl backdrop-blur-xl">
-            <span className="text-xs uppercase tracking-widest text-amber-400/90 font-medium">
-              28m Karesansui Sanctuary
-            </span>
-            <h1 className="mt-1 text-2xl font-light text-white tracking-wide">
-              枯山水 · Zen Garden
-            </h1>
-            <p className="mt-2 text-xs text-neutral-300 leading-relaxed">
-              Step into a 28-meter procedural stone and raked sand garden. Crafted with 100% procedural GLSL shaders, procedural audio synthesis, and dynamic post-processing.
-            </p>
-
-            <div className="mt-5 grid grid-cols-2 gap-2 text-left text-[11px] text-neutral-400 bg-white/5 p-3 rounded-xl border border-white/10">
-              <div><span className="font-semibold text-white">WASD / Arrows</span>: Walk</div>
-              <div><span className="font-semibold text-white">Mouse</span>: Look around</div>
-              <div><span className="font-semibold text-white">Press E / Click</span>: Strike Gong</div>
-              <div><span className="font-semibold text-white">Shift</span>: Slow stroll</div>
-            </div>
-
-            <button
-              type="button"
-              onClick={handleEnterGarden}
-              className="mt-6 w-full rounded-xl bg-gradient-to-r from-amber-600 to-amber-700 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-lg transition hover:from-amber-500 hover:to-amber-600 active:scale-[0.98]"
-            >
-              Enter Garden
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* First-person Aiming Crosshair */}
       {locked && (
