@@ -18,6 +18,7 @@ import {
   fpsSeries,
   latencySeries,
 } from "@/lib/data/benchmarks";
+import { StrawPollWidget } from "@/components/poll/StrawPollWidget";
 
 const tooltipStyle = {
   background: "var(--surface-solid)",
@@ -169,6 +170,15 @@ export function BenchmarkCharts() {
             ))}
           </tbody>
         </table>
+      </motion.div>
+
+      {/* Community StrawPoll Voting Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
+      >
+        <StrawPollWidget title="Community Vote: Which AI Built the Best Zen Garden?" />
       </motion.div>
     </div>
   );

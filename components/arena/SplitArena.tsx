@@ -1,11 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Maximize2 } from "lucide-react";
+import { Maximize2, Vote } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { GardenLoader } from "@/components/gardens/GardenLoader";
 import { ModelPicker } from "@/components/arena/ModelPicker";
 import { FullscreenSandbox } from "@/components/sandbox/FullscreenSandbox";
+import { StrawPollWidget } from "@/components/poll/StrawPollWidget";
 import {
   DEFAULT_LEFT_MODEL,
   DEFAULT_RIGHT_MODEL,
@@ -17,6 +18,7 @@ export function SplitArena() {
   const [rightId, setRightId] = useState(DEFAULT_RIGHT_MODEL);
   const [split, setSplit] = useState(50);
   const [fullscreenId, setFullscreenId] = useState<string | null>(null);
+  const [showVoteModal, setShowVoteModal] = useState(false);
   const dragging = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -52,9 +54,19 @@ export function SplitArena() {
               Load two gardens and compare in real time.
             </p>
           </div>
-          <p className="text-xs text-muted">
-            Drag the divider to resize · Expand either pane for sandbox mode
-          </p>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setShowVoteModal(true)}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-accent-foreground shadow transition hover:opacity-90 active:scale-95"
+            >
+              <Vote className="h-3.5 w-3.5" />
+              Vote for Best Garden
+            </button>
+            <p className="hidden text-xs text-muted sm:block">
+              Drag divider to resize · Expand pane for sandbox
+            </p>
+          </div>
         </div>
 
         <div
@@ -117,6 +129,19 @@ export function SplitArena() {
           </motion.section>
         </div>
       </div>
+
+      {/* Voting Modal */}
+      {showVoteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-lg">
+            <StrawPollWidget
+              title="Vote for the Best Zen Garden"
+              isOpen={true}
+              onClose={() => setShowVoteModal(false)}
+            />
+          </div>
+        </div>
+      )}
 
       <FullscreenSandbox
         modelId={fullscreenId}
